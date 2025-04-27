@@ -1,0 +1,72 @@
+* 24-04-2025
+** Plan
+   - 12:00-17:00 werken aan school
+   - Alle componenten testen op functionaliteit en tabbladendiagram start maken
+     (aanpassen wanneer nieuwe tab nodig is).
+** Actualiteit
+*** Agenda
+    - 13:30-17:30 gewerkt aan EPD
+*** Werkzaamheden
+    - Alle componenten getest en zijn werkend.
+    - Tabbladen zijn opgezet en start van diagram is gemaakt. (wanneer 
+      ervingsstructuur duidelijk is kan deze verder worden uitgewerkt).
+** Plan morgen
+*** Agenda
+    - 8:30-11:30 en 14:30-17:30 werk.
+    - 12:30-14:00 en 19:30-21:00 werken aan EPD.
+*** Werkzaamheden
+    - Alle pintab in orde maken, main tab begin maken. Zorg ervoor dat pintab
+      geerft wordt naar main tab.
+** Thoughts
+   - Het plan was al snel een rommeltje, gelukkig was het plan niet
+     ingewikkeld.
+* 25-04-2025
+** Actualiteit
+*** Agenda
+    - 08:30-11:30 Werk.
+    - 12:30-14:00 Huishouden.
+    - 14:30-18:30 Werk.
+    - 19:00-20:30 Huishouden en koken.
+    - 20:30-22:00 Werken aan EPD.
+*** Werkzaamheden
+    - Alle pintab in orde gemaakt.
+    - Servo getest (vergeten uit te voeren op {# 24-04-2025}).
+    - Main tab begin gemaakt.
+    - Pintab geerft naar main tab.
+    - Main tab verder uitgewerkt.
+** Plan morgen
+*** Agenda
+    - 11:00-14:00 Werken aan EPD.
+    - 15:00-16:30 Werk
+    - 17:00-18:30 Huishouden en eten.
+    - 19:00-20:30 Werk
+*** Werkzaamheden
+    - Knoppen en sensoren definiëren en uitwerken.
+    - Stoplichten logica uitwerken en testen met de knoppen en sensoren.
+    - Main tab aanpassen aan aangepaste sketch.
+* 26-04-2025
+** Actualiteit
+   - 15:00-17:00 werk
+   - Niet aan school gewerkt, vrije avond.
+** Plan morgen
+   - Hele dag vrij, dus werken aan school.
+   - 12:00-19:00 (met pauze) werken aan EPD.
+* 27-04-2025
+** Actualiteit
+*** Agenda
+    - 15:30-18:00 gewerkt aan EPD
+*** Werkzaamheden
+    - Knoppen uitgewerkt met ontdender logica.
+    - Lichtlogica aangepast aan knoppen.
+    - Main aanepast aan aangepaste sketch.
+** Plan morgen
+*** Agenda  
+    - 4 uur werken aan EPD.
+    - Mogelijke tijden vanaf 10:00-20:00. Voorkeur naar 13:00-17:00.
+*** Werkzaamheden
+    - Sensoren logica toevoegen.
+    - Servo logica toevoegen.
+    - Buzzer logica toevoegen.
+    - LED logica toevoegen.
+    - Main tab verder uitwerken. Aanpassen aan requirements.
+* 28-04-2025
