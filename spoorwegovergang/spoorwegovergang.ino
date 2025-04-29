@@ -1,13 +1,14 @@
 void setup() {
   Serial.begin(9600);
 
-  setupPins();  // methode met alle pinmode()
-  setupTrafficLights();
+  setupPins();
+  setupTraffic();
+  setupServo();
 }
 
 void loop() {
   handleButtonPress();
-  updateTrafficLights();
-  
+  updateTraffic();
+  updateDisplayCounter();
+  updateBuzzerDisplay();
 }
-

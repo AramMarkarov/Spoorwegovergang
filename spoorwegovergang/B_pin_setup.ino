@@ -25,6 +25,11 @@ const int SHIFT_DATA = 8;
 const int SHIFT_LATCH = 9;
 const int SHIFT_CLOCK = 10;
 
+// Display
+const int DATAPIN  = 8;
+const int LATCHPIN = 9;
+const int CLOCKPIN = 10;
+
 void setupPins() {
   // Knoppen en sensoren
   pinMode(SENSOREAST, INPUT);
@@ -49,5 +54,9 @@ void setupPins() {
   pinMode(SHIFT_DATA, OUTPUT);
   pinMode(SHIFT_LATCH, OUTPUT);
   pinMode(SHIFT_CLOCK, OUTPUT);
-}
 
+  // Display
+  pinMode(LATCHPIN, OUTPUT);
+  pinMode(CLOCKPIN, OUTPUT);
+  pinMode(DATAPIN, OUTPUT);
+}   

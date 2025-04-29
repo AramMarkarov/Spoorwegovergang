@@ -1,31 +1,14 @@
-const unsigned long MIN_GREEN_TIME = 12000;
-const unsigned long YELLOW_TIME = 2000;
-const unsigned long ALL_RED_TIME = 3000;
-
-// Enum is vergelijkbaar met een enkele array
-enum TrafficState {
-  NORTH_GREEN,
-  NORTH_YELLOW,
-  ALL_RED_FROM_NORTH,
-  SOUTH_GREEN,
-  SOUTH_YELLOW,
-  ALL_RED_FROM_SOUTH
-};
-
-TrafficState currentTrafficState = NORTH_GREEN;
-unsigned long stateStartTime = 0;
-
-// Startpunt bij opstarten van de Arduino
-void setupTrafficLights() {
+void setupTraffic() {
   northGreen();
   southRed();
   currentTrafficState = NORTH_GREEN;
   stateStartTime = millis();
 }
 
-// Loop functie die continu draait om de verkeerslichten te controleren
-void updateTrafficLights() {
+void updateTraffic() {
   unsigned long now = millis();
+
+  handleTrainDetection();
 
   switch (currentTrafficState) {
     case NORTH_GREEN:
@@ -75,45 +58,16 @@ void updateTrafficLights() {
         stateStartTime = now;
       }
       break;
+
+    case TRAIN_APPROACHING:
+      handleBlinkingYellow(now);
+      buzzerOn();
+      break;
+
+    case TRAIN_CROSSING:
+      countdownDisplay();
+      handleServoForClosing();
+      buzzerOn();
+      break;
   }
-}
-
-// --- Traffic Light Control Functies ---
-
-void northGreen() {
-  digitalWrite(RED_NORTH, LOW);
-  digitalWrite(YELLOW_NORTH, LOW);
-  digitalWrite(GREEN_NORTH, HIGH);
-}
-
-void northToYellow() {
-  digitalWrite(GREEN_NORTH, LOW);
-  digitalWrite(YELLOW_NORTH, HIGH);
-}
-
-void northToRed() {
-  digitalWrite(YELLOW_NORTH, LOW);
-  digitalWrite(RED_NORTH, HIGH);
-}
-
-void southGreen() {
-  digitalWrite(RED_SOUTH, LOW);
-  digitalWrite(YELLOW_SOUTH, LOW);
-  digitalWrite(GREEN_SOUTH, HIGH);
-}
-
-void southToYellow() {
-  digitalWrite(GREEN_SOUTH, LOW);
-  digitalWrite(YELLOW_SOUTH, HIGH);
-}
-
-void southToRed() {
-  digitalWrite(YELLOW_SOUTH, LOW);
-  digitalWrite(RED_SOUTH, HIGH);
-}
-
-void southRed() {
-  digitalWrite(GREEN_SOUTH, LOW);
-  digitalWrite(YELLOW_SOUTH, LOW);
-  digitalWrite(RED_SOUTH, HIGH);
 }
