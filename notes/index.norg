@@ -70,3 +70,22 @@
     - LED logica toevoegen.
     - Main tab verder uitwerken. Aanpassen aan requirements.
 * 28-04-2025
+** Actualiteit
+*** Agenda
+    - 9:00-11:00 werk
+    - 13:00-16:00 dutje
+    - 17:00-21:00 werk aan EPD
+*** Werkzaamheden
+    - Regressie tijdens het testen
+    - Knoppen en Lichten werken nu en zijn getest.
+    - Poging gemaakt voor servo, buzzer en sensoren, maar door regressie niet
+      gelukt.
+** Plan morgen
+*** Agenda
+    - 12:00-18:00 werken aan EPD (met pauze).
+    - 18:00-18:30 meeting.
+*** werkzaamheden   
+   - Trein detectie logica aanpassen en testen (sensoren)
+   - Servo logica toevoegen en testen.
+   - Buzzer logica toevoegen en testen.
+   - Display logica toevoegen en testen.

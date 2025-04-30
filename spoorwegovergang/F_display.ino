@@ -50,4 +50,3 @@ if (secondsLeft >= 0 && secondsLeft < (sizeof(digits) / sizeof(digits[0]))) {
     countdownActive = false;
   }
 }
-

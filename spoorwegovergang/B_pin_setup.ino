@@ -1,7 +1,7 @@
 // Knoppen en sensoren
 const int SENSOREAST = 4;
-const int BUTTONSOUTH = 5;
-const int BUTTONNORTH = 6;
+const int BUTTONNORTH = 5;
+const int BUTTONSOUTH = 6;
 const int SENSORWEST = 7;
 
 // Buzzer
@@ -11,14 +11,14 @@ const int BUZZER = 3;
 const int SERVO = 2;
 
 // Verkeerslichten Noord (A0-A2)
-const int RED_NORTH = A0;
+const int RED_NORTH = A2;
 const int YELLOW_NORTH = A1;
-const int GREEN_NORTH = A2;
+const int GREEN_NORTH = A0;
 
 // Verkeerslichten Zuid (A3-A5)
-const int RED_SOUTH = A3;
+const int RED_SOUTH = A5;
 const int YELLOW_SOUTH = A4;
-const int GREEN_SOUTH = A5;
+const int GREEN_SOUTH = A3;
 
 // Shift register (7-segment)
 const int SHIFT_DATA = 8;

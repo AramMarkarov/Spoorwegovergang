@@ -1,21 +1,20 @@
 const unsigned long MIN_GREEN_TIME = 12000;
 const unsigned long YELLOW_TIME = 2000;
-const unsigned long ALL_RED_TIME = 3000;
+const unsigned long RED_TIME = 3000;
 const unsigned long BLINK_INTERVAL = 500;
 
 enum TrafficState {
   NORTH_GREEN,
   NORTH_YELLOW,
-  ALL_RED_FROM_NORTH,
+  NORTH_RED,
   SOUTH_GREEN,
   SOUTH_YELLOW,
-  ALL_RED_FROM_SOUTH,
+  SOUTH_RED,
   TRAIN_APPROACHING,
-  TRAIN_CROSSING
+  TRAIN_PASSED
 };
 
 TrafficState currentTrafficState = NORTH_GREEN;
-unsigned long stateStartTime = 0;
 unsigned long lastBlinkTime = 0;
 bool yellowBlinkState = false;
 
@@ -31,6 +30,13 @@ void northToYellow() {
 }
 
 void northToRed() {
+  digitalWrite(YELLOW_NORTH, LOW);
+  digitalWrite(RED_NORTH, HIGH);
+  buttonNorthPressed = false;
+}
+
+void northRed() {
+  digitalWrite(GREEN_NORTH, LOW);
   digitalWrite(YELLOW_NORTH, LOW);
   digitalWrite(RED_NORTH, HIGH);
 }
@@ -49,6 +55,7 @@ void southToYellow() {
 void southToRed() {
   digitalWrite(YELLOW_SOUTH, LOW);
   digitalWrite(RED_SOUTH, HIGH);
+  buttonSouthPressed = false;
 }
 
 void southRed() {
@@ -69,8 +76,16 @@ void handleBlinkingYellow(unsigned long now) {
   }
 }
 
+void transitionToTrainApproaching(unsigned long now) {
+  currentTrafficState = TRAIN_APPROACHING;
+  startCountdown();
+  buzzerOn();
+  closeBarrier();
+  stateStartTime = now;
+}
+
 void handleServoForClosing() {
-  if (currentTrafficState == TRAIN_CROSSING) {
+  if (currentTrafficState == TRAIN_PASSED) {
     closeBarrier();
   }
 }

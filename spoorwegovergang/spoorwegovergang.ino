@@ -3,12 +3,14 @@ void setup() {
 
   setupPins();
   setupTraffic();
-  setupServo();
+  setupBarrier();
+  openBarrier();
 }
 
 void loop() {
   handleButtonPress();
   updateTraffic();
+  loopBarrier();
   updateDisplayCounter();
   updateBuzzerDisplay();
 }
