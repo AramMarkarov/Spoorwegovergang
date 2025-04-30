@@ -81,6 +81,7 @@
     - Main tab verder uitgewerkt.
     - Alles moet nog getest worden.
 ** Plan morgen
+<<<<<<< HEAD
    - 9:00-11:00 werk.
    - ~12:00-17:00 werken aan EPD.
 * 30-04-2025
@@ -103,3 +104,8 @@
     - Servo logica toevoegen en testen.
     - Buzzer logica toevoegen en testen.
     - Display logica toevoegen en testen.
+=======
+    - 9:00-11:00 werk.
+    - ~12:00-17:00 werken aan EPD.
+* 30-04-2025
+>>>>>>> f89a47e2d5cdc929bc926bb2e4e4a7a97f8f1629
