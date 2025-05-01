@@ -85,12 +85,10 @@ void transitionToTrainApproaching(unsigned long now) {
   currentTrafficState = TRAIN_APPROACHING;
   buzzerOn();
   closeBarrier();
-  stateStartTime = now;
 }
 
 void transitionToTrainPassed(unsigned long now) {
   currentTrafficState = TRAIN_PASSED;
-  stateStartTime = now;
 }
 
 void handleServoForClosing() {

@@ -103,3 +103,24 @@
     - Servo logica toevoegen en testen.
     - Buzzer logica toevoegen en testen.
     - Display logica toevoegen en testen.
+* 01-05-2025
+** Actualiteit
+*** Agenda
+    - 15:00-17:30 werken aan EPD.
+    - 17:30-17:45 meeting.
+*** Werkzaamheden
+    - Servo werkt (capacitor was nodig en toegevoegd).
+    - Buzzer werkt.
+    - Display werkt (aftellen moet nog).
+    - Sensoren werkten (trein detectie andere zijde moet nog).
+    - Train approaching werkt, train passed moet nog.
+** Plan morgen
+*** Agenda
+    - 9:30-12:30 werk.
+    - 14:00-17:00 werken aan EPD.
+*** Werkzaamheden
+    - Train approaching compleet maken.
+    - Train passed toevoegen.
+    -- Toevoegen wachttijd op servo voor vervolg verkeer (door tekort
+       stroomtoevoer).
+    -- Aftellen op display toevoegen na servo.
