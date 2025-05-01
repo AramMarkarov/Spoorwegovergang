@@ -1,7 +1,7 @@
 void setupTraffic() {
-  northGreen();
+  northRed();
   southRed();
-  currentTrafficState = NORTH_GREEN;
+  currentTrafficState = SYSTEM_STARTUP;
   stateStartTime = millis();
 }
 
@@ -94,6 +94,50 @@ void updateTraffic() {
       // stel in voor system startup en correct button functie
       stateStartTime = now;
       break;
+
+    case SYSTEM_STARTUP:
+      openBarrier();
+      buzzerOff();
+      if (buttonNorthPressed) {
+        currentTrafficState = STARTUP_NORTH_GREEN;
+        buttonSouthPressed = false;
+        stateStartTime = now;
+      } else if (buttonSouthPressed) {
+        currentTrafficState = STARTUP_SOUTH_GREEN;
+        buttonNorthPressed = false;
+        stateStartTime = now;
+      }
+      break;
+
+    case STARTUP_NORTH_GREEN:
+      northGreen();
+      
+      if (trainIncoming) {
+        transitionToTrainApproaching(now);
+        return;
+      }
+
+      if (now - stateStartTime >= MIN_GREEN_TIME) {
+        currentTrafficState = NORTH_GREEN;
+        stateStartTime = now;
+      }
+
+      break;
+
+    case STARTUP_SOUTH_GREEN:
+      southGreen();
+      
+      if (trainIncoming) {
+        transitionToTrainApproaching(now);
+        return;
+      }
+
+      if (now - stateStartTime >= MIN_GREEN_TIME) {
+        currentTrafficState = SOUTH_GREEN;
+        stateStartTime = now;
+      }
+      break;
+
 
     default:
       break;
