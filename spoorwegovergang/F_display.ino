@@ -3,13 +3,14 @@ unsigned long lastDisplayUpdate = 0;
 const unsigned long MILLIS_IN_SECOND = 1000;
 
 // Getallen 0-5 voor 7-segment display
-const byte digits[6] = {
+const byte digits[7] = {
   B00111111, // 0
   B00000110, // 1
   B01011011, // 2
   B01001111, // 3
   B01100110, // 4
   B01101101, // 5
+  B00000000, // off
 };
 
 unsigned long countdownStartTime = 0;

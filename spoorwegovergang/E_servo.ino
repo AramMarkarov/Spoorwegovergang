@@ -13,7 +13,6 @@ unsigned long stateStartTime = 0;
 
 void setupBarrier() {
   barrierServo.attach(SERVO);
-  closeBarrier();
 }
 
 void openBarrier() {
@@ -34,15 +33,5 @@ void updateBarrierMovement(unsigned long now) {
   if (barrierIsMoving && now - barrierMoveStartTime >= SERVO_MOVE_DURATION) {
     barrierIsMoving = false;
     barrierIsOpen = (barrierServo.read() == OPEN_ANGLE);
-  }
-}
-
-void loopBarrier() {
-  if (stateStartTime == 0) {
-    updateBarrierMovement(millis());
-    if (!barrierIsOpen || barrierIsMoving) {
-      return;
-    }
-    stateStartTime = millis();
   }
 }

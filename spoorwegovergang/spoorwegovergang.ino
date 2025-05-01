@@ -8,9 +8,11 @@ void setup() {
 }
 
 void loop() {
+  unsigned long now = millis();
   handleButtonPress();
+  handleTrainDetection();
   updateTraffic();
-  loopBarrier();
+  updateBarrierMovement(now);
   updateDisplayCounter();
   updateBuzzerDisplay();
 }

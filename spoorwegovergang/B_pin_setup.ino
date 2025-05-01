@@ -8,7 +8,7 @@ const int SENSORWEST = 7;
 const int BUZZER = 3;
 
 // Servo
-const int SERVO = 2;
+const int SERVO = 13;
 
 // Verkeerslichten Noord (A0-A2)
 const int RED_NORTH = A2;

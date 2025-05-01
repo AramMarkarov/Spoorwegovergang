@@ -17,7 +17,8 @@ enum TrafficState {
   STARTUP_SOUTH_GREEN
 };
 
-TrafficState currentTrafficState = NORTH_GREEN;
+TrafficState currentTrafficState;
+TrafficState lastTrafficState;
 unsigned long lastBlinkTime = 0;
 bool yellowBlinkState = false;
 
@@ -80,10 +81,15 @@ void handleBlinkingYellow(unsigned long now) {
 }
 
 void transitionToTrainApproaching(unsigned long now) {
+  lastTrafficState = currentTrafficState; // Check verkeerstatus
   currentTrafficState = TRAIN_APPROACHING;
-  startCountdown();
   buzzerOn();
   closeBarrier();
+  stateStartTime = now;
+}
+
+void transitionToTrainPassed(unsigned long now) {
+  currentTrafficState = TRAIN_PASSED;
   stateStartTime = now;
 }
 
