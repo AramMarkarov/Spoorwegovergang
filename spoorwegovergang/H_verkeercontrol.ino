@@ -2,6 +2,7 @@ const unsigned long MIN_GREEN_TIME = 12000;
 const unsigned long YELLOW_TIME = 2000;
 const unsigned long RED_TIME = 3000;
 const unsigned long BLINK_INTERVAL = 500;
+unsigned long stateStartTime = millis();
 
 enum TrafficState {
   NORTH_GREEN,
@@ -80,33 +81,17 @@ void handleBlinkingYellow(unsigned long now) {
   }
 }
 
-void transitionToTrainApproaching(unsigned long now) {
+void transitionToTrainApproaching() {
   lastTrafficState = currentTrafficState; // Check verkeerstatus
   currentTrafficState = TRAIN_APPROACHING;
-  buzzerOn();
-  closeBarrier();
 }
 
-void transitionToTrainPassed(unsigned long now) {
+void transitionToTrainPassed() {
   currentTrafficState = TRAIN_PASSED;
-}
-
-void handleServoForClosing() {
-  if (currentTrafficState == TRAIN_PASSED) {
-    closeBarrier();
-  }
 }
 
 void countdownDisplay() {
   if (!countdownActive) {
     startCountdown();
   }
-}
-
-void buzzerOn() {
-  digitalWrite(BUZZER, HIGH);
-}
-
-void buzzerOff() {
-  digitalWrite(BUZZER, LOW);
 }

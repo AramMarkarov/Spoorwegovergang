@@ -1,3 +1,5 @@
+#include <Servo.h>
+
 // Knoppen en sensoren
 const int SENSOREAST = 4;
 const int BUTTONNORTH = 5;
@@ -30,6 +32,8 @@ const int DATAPIN  = 8;
 const int LATCHPIN = 9;
 const int CLOCKPIN = 10;
 
+Servo barrierServo;
+
 void setupPins() {
   // Knoppen en sensoren
   pinMode(SENSOREAST, INPUT);
@@ -40,7 +44,7 @@ void setupPins() {
   // Buzzer
   pinMode(BUZZER, OUTPUT);
 
-  // Servo – geen pinMode nodig, Servo.attach() regelt dit
+  barrierServo.attach(SERVO);
 
   // LED’s
   pinMode(RED_NORTH, OUTPUT);

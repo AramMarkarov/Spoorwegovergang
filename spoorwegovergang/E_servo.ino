@@ -1,37 +1,31 @@
-#include <Servo.h>
-
-Servo barrierServo;
-
 const int OPEN_ANGLE = 90;
-const int CLOSED_ANGLE = 0;
+const int CLOSED_ANGLE = 70;
+const unsigned long BARRIER_MOVE_TIME_MS = 16000;
 
-bool barrierIsOpen = false;
-bool barrierIsMoving = false;
-unsigned long barrierMoveStartTime = 0;
-const unsigned long SERVO_MOVE_DURATION = 2000;
-unsigned long stateStartTime = 0;
+bool barrierIsMoving;
+unsigned long barrierMovementStartTime = 0;
 
-void setupBarrier() {
-  barrierServo.attach(SERVO);
-}
-
-void openBarrier() {
+void openBarrier(unsigned long now) {
   barrierServo.write(OPEN_ANGLE);
-  barrierIsOpen = true;
   barrierIsMoving = true;
-  barrierMoveStartTime = millis();
+  updateBarrierMovement(now);
 }
 
-void closeBarrier() {
+void closeBarrier(unsigned long now) {
   barrierServo.write(CLOSED_ANGLE);
-  barrierIsOpen = false;
   barrierIsMoving = true;
-  barrierMoveStartTime = millis();
+  updateBarrierMovement(now);
 }
 
 void updateBarrierMovement(unsigned long now) {
-  if (barrierIsMoving && now - barrierMoveStartTime >= SERVO_MOVE_DURATION) {
+  if (now - barrierMovementStartTime >= BARRIER_MOVE_TIME_MS) {
     barrierIsMoving = false;
-    barrierIsOpen = (barrierServo.read() == OPEN_ANGLE);
+  }
+
+  if (barrierIsMoving) {
+    buzzerOn(now);
+  } else {
+    buzzerOff();
+    barrierMovementStartTime = now;
   }
 }

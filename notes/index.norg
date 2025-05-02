@@ -124,3 +124,24 @@
     -- Toevoegen wachttijd op servo voor vervolg verkeer (door tekort
        stroomtoevoer).
     -- Aftellen op display toevoegen na servo.
+* 02-05-2025
+** Actualiteit
+*** Agenda
+    - 9:30-14:00 werk.
+    - 14:30-18:00 Huishouden en dutje.
+    - 19:00-00:30 werken aan EPD.
+*** Werkzaamheden
+    - Regressie door poging inheritance fixen; buzzer timer is niet in orde.
+    - Buzzer timer verstoort huidig project.
+** Plan morgen
+*** Agenda
+    - 10:00-12:00 werk.
+    - 13:00~18:00 werken aan EPD.
+*** Werkzaamheden
+    - Documentatie software timer lezen.
+    - Documentatie servometer lezen (mogelijk manier om servo stand te tracken).
+    -- anders moet het met een handmatige timer.
+    - Software timer en buzzer fixen.
+    - Herstellen progressie en andere states toegankelijk maken.
+* 03-05-2025
+

@@ -1,14 +1,10 @@
 void setupTraffic() {
-  northRed();
-  southRed();
-  displayDigit(7);
-  openBarrier();
   currentTrafficState = SYSTEM_STARTUP;
-  stateStartTime = millis();
 }
 
 void updateTraffic() {
   unsigned long now = millis();
+  stateStartTime = 0;
   bool trainIncoming = trainDetectedEast || trainDetectedWest;
   bool trainPassed = !trainDetectedEast && !trainDetectedWest;
 
@@ -16,7 +12,7 @@ void updateTraffic() {
 
     case NORTH_GREEN:
       if (trainIncoming) {
-        transitionToTrainApproaching(now);
+        transitionToTrainApproaching();
         return;
       }
 
@@ -45,7 +41,7 @@ void updateTraffic() {
 
     case SOUTH_GREEN:
       if (trainIncoming) {
-        transitionToTrainApproaching(now);
+        transitionToTrainApproaching();
         return;
       }
 
@@ -109,10 +105,7 @@ void updateTraffic() {
         case SYSTEM_STARTUP:
           if (now - stateStartTime >= RED_TIME) {
             handleBlinkingYellow(now);
-            buzzerOn();
-            closeBarrier();
-          } else {
-            handleBlinkingYellow(now);
+            closeBarrier(now);
           }
           break;
 
@@ -121,13 +114,13 @@ void updateTraffic() {
       }
 
       if (trainPassed) {
-        transitionToTrainPassed(now);
+        transitionToTrainPassed();
         return;
       }
       break;
 
-    case TRAIN_PASSED: // heeft een rework nodig
-      openBarrier();
+    case TRAIN_PASSED:
+      openBarrier(now);
       buzzerOff();
       if (buttonNorthPressed) {
         currentTrafficState = NORTH_GREEN;
@@ -142,18 +135,22 @@ void updateTraffic() {
       stateStartTime = now;
       break;
 
+
     case SYSTEM_STARTUP:
+      northRed();
+      southRed();
+      openBarrier(now);
+      displayDigit(7); // Display uit
       if (trainIncoming) {
-        transitionToTrainApproaching(now);
+        transitionToTrainApproaching();
         return;
       }
-      openBarrier();
-      buzzerOff();
-      if (buttonNorthPressed) {
+
+      if (buttonNorthPressed && !barrierIsMoving) {
         currentTrafficState = STARTUP_NORTH_GREEN;
         buttonSouthPressed = false;
         stateStartTime = now;
-      } else if (buttonSouthPressed) {
+      } else if (buttonSouthPressed && !barrierIsMoving) {
         currentTrafficState = STARTUP_SOUTH_GREEN;
         buttonNorthPressed = false;
         stateStartTime = now;
@@ -164,7 +161,8 @@ void updateTraffic() {
       northGreen();
 
       if (trainIncoming) {
-        transitionToTrainApproaching(now);
+        stateStartTime = now;
+        transitionToTrainApproaching();
         return;
       }
 
@@ -179,7 +177,7 @@ void updateTraffic() {
       southGreen();
 
       if (trainIncoming) {
-        transitionToTrainApproaching(now);
+        transitionToTrainApproaching();
         return;
       }
 
