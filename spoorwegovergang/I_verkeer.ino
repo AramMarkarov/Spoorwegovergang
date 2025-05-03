@@ -4,7 +4,7 @@ void setupTraffic() {
 
 void updateTraffic() {
   unsigned long now = millis();
-  stateStartTime = 0;
+  updateBarrierMovement(now);
   bool trainIncoming = trainDetectedEast || trainDetectedWest;
   bool trainPassed = !trainDetectedEast && !trainDetectedWest;
 
@@ -132,7 +132,7 @@ void updateTraffic() {
         currentTrafficState = NORTH_GREEN;
       }
       // stel in voor system startup en correct button functie
-      stateStartTime = now;
+      
       break;
 
 
