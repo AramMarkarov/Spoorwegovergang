@@ -23,6 +23,7 @@ void handleTrainDetection() {
 
     if (readingEast == HIGH && !trainDetectedWest && !trainDetectedEast) {
       trainDetectedEast = true;
+      Serial.print("XD");
     }
     if (readingWest == HIGH && trainDetectedEast) {
       trainDetectedEast = false;

@@ -18,17 +18,8 @@ void closeBarrier(unsigned long now) {
 }
 
 void updateBarrierMovement(unsigned long now) {
-  Serial.print("barrierIsMoving: ");
-  Serial.println(barrierIsMoving);
-  Serial.print("now: ");
-  Serial.print(now);
-  Serial.print("  start: ");
-  Serial.print(barrierMovementStartTime);
-  Serial.print("  diff: ");
-  Serial.println(now - barrierMovementStartTime);
-
+  Serial.println(barrierMovementStartTime);
   if (barrierIsMoving && (now - barrierMovementStartTime >= BARRIER_MOVE_TIME_MS)) {
-    Serial.println("Barrier movement finished.");
     barrierIsMoving = false;
   }
 

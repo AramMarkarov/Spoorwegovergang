@@ -103,6 +103,7 @@ void updateTraffic() {
         case NORTH_RED:
         case SOUTH_RED:
         case SYSTEM_STARTUP:
+        case SYSTEM_STANDBY:
           if (now - stateStartTime >= RED_TIME) {
             handleBlinkingYellow(now);
             closeBarrier(now);
@@ -132,20 +133,28 @@ void updateTraffic() {
         currentTrafficState = NORTH_GREEN;
       }
       // stel in voor system startup en correct button functie
-      
-      break;
 
+      break;
 
     case SYSTEM_STARTUP:
       northRed();
       southRed();
       openBarrier(now);
       displayDigit(7); // Display uit
+      
       if (trainIncoming) {
         transitionToTrainApproaching();
         return;
       }
+      currentTrafficState = SYSTEM_STANDBY;
 
+      break;
+
+    case SYSTEM_STANDBY:
+      if (trainIncoming) {
+        transitionToTrainApproaching();
+        return;
+      }
       if (buttonNorthPressed && !barrierIsMoving) {
         currentTrafficState = STARTUP_NORTH_GREEN;
         buttonSouthPressed = false;
@@ -155,6 +164,7 @@ void updateTraffic() {
         buttonNorthPressed = false;
         stateStartTime = now;
       }
+
       break;
 
     case STARTUP_NORTH_GREEN:
