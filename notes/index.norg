@@ -144,4 +144,38 @@
     - Software timer en buzzer fixen.
     - Herstellen progressie en andere states toegankelijk maken.
 * 03-05-2025
-
+** Actualiteit
+*** Agenda
+    - 10:00-12:00 werk.
+    - 16:00-18:00 werken aan EPD.
+*** Werkzaamheden
+    - Software timer fout gevonden en opgelost.
+    - Meerder cases toegevoegd om iedere functie in werking te brengen.
+** Plan morgen
+*** Agenda
+    - 12:00-18:00 werken aan EPD.
+*** Werkzaamheden
+    - Buzzer en timer volledig maken met de nieuwe cases.
+    - Code opschonen (inheritance).
+* 04-05-2025
+** Actualiteit
+*** Agenda
+    - 14:00-22:00 werken aan EPD (met eetpauze).
+*** Werkzaamheden
+    - Timer werkt naar behoren.
+    - Alle states werken en schakelen correct over.
+    - Code is opgeschoont (nog enkele verbeteringen).
+** Plan morgen
+*** Agenda
+    - 12:00-14:00 werk.
+    - 15:00-21:00 werken aan EPD.
+*** Werkzaamheden
+    - Buzzer three tick logica fixen.
+    - Tests uitvoeren voor alle states en functies.
+    - Code opschonen en inheritance verbeteren.
+    - Functioneel Ontwerp controleren en bijwerken.
+    - Technisch Ontwerp controleren en bijwerken.
+    - Tabbladendiagram controleren en bijwerken.
+    - Zelfbeoordeling uitvoeren.
+    - Inleveren.
+* 05-05-2025
