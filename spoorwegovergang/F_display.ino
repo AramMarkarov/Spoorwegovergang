@@ -1,6 +1,6 @@
 int displayCounter = -1;
 unsigned long lastDisplayUpdate = 0;
-const unsigned long MILLIS_IN_SECOND = 1000;
+const unsigned long SECOND = 1000;
 
 // Getallen 0-5 voor 7-segment display
 const byte digits[7] = {
@@ -26,28 +26,31 @@ void displayDigit(int number) {
 
 // Aftellen
 void startCountdown() {
-  countdownStartTime = millis();
   countdownActive = true;
 }
 
-bool isCountdownFinished() {
-  return countdownActive && ((millis() - countdownStartTime) 
-  >= countdownSeconds * MILLIS_IN_SECOND);
+bool isCountdownFinished(unsigned long now) {
+  countdownStartTime = now;
+  return countdownActive && ((now - countdownStartTime) >= countdownSeconds * SECOND);
 }
 
+const unsigned long DISPLAY_UPDATE_INTERVAL = 250;
 // Zorgt dat display daadwerkelijk aftelt naar 0, dan countdownActive op false
-void updateDisplayCounter() {
+void updateDisplayCounter(unsigned long now) {
   if (!countdownActive) return;
 
-  unsigned long elapsed = millis() - countdownStartTime;
-  int secondsLeft = countdownSeconds - (elapsed / MILLIS_IN_SECOND);
+  if (now - lastDisplayUpdate >= DISPLAY_UPDATE_INTERVAL) {
+    lastDisplayUpdate = now;
 
-  
-if (secondsLeft >= 0 && secondsLeft < (sizeof(digits) / sizeof(digits[0]))) {
-    displayDigit(secondsLeft);
-  }
+    unsigned long elapsed = now - countdownStartTime;
+    int secondsLeft = countdownSeconds - (elapsed / SECOND);
 
-  if (secondsLeft <= 0) {
-    countdownActive = false;
+    if (secondsLeft >= 0 && secondsLeft < (sizeof(digits) / sizeof(digits[0]))) {
+      displayDigit(secondsLeft);
+    }
+
+    if (secondsLeft <= 0) {
+      countdownActive = false;
+    }
   }
 }

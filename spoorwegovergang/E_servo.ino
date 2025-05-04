@@ -1,5 +1,5 @@
-const int OPEN_ANGLE = 90;
-const int CLOSED_ANGLE = 70;
+const int OPEN_ANGLE = 120;
+const int CLOSED_ANGLE = 150;
 const unsigned long BARRIER_MOVE_TIME_MS = 16000;
 
 bool barrierIsMoving = false;

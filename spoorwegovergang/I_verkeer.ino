@@ -1,11 +1,11 @@
 void setupTraffic() {
-  currentTrafficState = SYSTEM_STARTUP;
+  currentTrafficState = COUNTDOWN;
 }
 
 void updateTraffic() {
   unsigned long now = millis();
   bool trainWasDetected = detectionPhase != NO_TRAIN;
-  
+
   switch (currentTrafficState) {
 
     case NORTH_GREEN:
@@ -105,6 +105,15 @@ void updateTraffic() {
           if (now - stateStartTime >= RED_TIME) {
             handleBlinkingYellow(now);
             closeBarrier();
+
+            if (barrierIsMoving) {
+              buzzerOn(now);
+              if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
+                barrierIsMoving = false;
+                currentTrafficState = TRAIN_PASSING;
+                stateStartTime = now;
+              }
+            }
           }
           break;
 
@@ -112,101 +121,133 @@ void updateTraffic() {
           break;
       }
 
+      break;
+
+    case TRAIN_PASSING:
+      handleBlinkingYellow(now);
+
       if (trainPassed) {
+        stateStartTime = now;
         transitionToTrainPassed();
         return;
       }
+
       break;
 
     case TRAIN_PASSED:
       openBarrier();
+      handleBlinkingYellow(now);
+      updateDisplayCounter(now);
 
       if (barrierIsMoving) {
         buzzerOn(now);
+
         if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
           barrierIsMoving = false;
-          currentTrafficState = SYSTEM_STANDBY;
+          lastDisplayUpdate = now;
           stateStartTime = now;
+          currentTrafficState = COUNTDOWN;
         }
       } else {
         buzzerOff();
       }
-
       break;
 
-    case SYSTEM_STARTUP:
-      northRed();
-      southRed();
-      openBarrier();
-      displayDigit(7); // Display uit
+    case COUNTDOWN:
+      updateDisplayCounter(now);
+      startCountdown();
 
-      if (trainWasDetected) {
-        transitionToTrainApproaching();
-        return;
+      if (!countdownActive) {
+        currentTrafficState = THREE_TICK;
       }
+  break;
 
-      if (barrierIsMoving) {
-        buzzerOn(now);
-        if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
-          barrierIsMoving = false;
-          currentTrafficState = SYSTEM_STANDBY;
-          stateStartTime = now;
-        }
-      } else {
-        buzzerOff();
-      }
+  case THREE_TICK:
+    updateDisplayCounter(now);
+    updateThreeTickBuzzer(now);
 
-      break;
-
-    case SYSTEM_STANDBY:
-      if (trainWasDetected) {
-        transitionToTrainApproaching();
-        return;
-      }
-      buzzerOff();
-      if (buttonNorthPressed && !barrierIsMoving) {
-        currentTrafficState = STARTUP_NORTH_GREEN;
-        buttonSouthPressed = false;
-        stateStartTime = now;
-      } else if (buttonSouthPressed && !barrierIsMoving) {
-        currentTrafficState = STARTUP_SOUTH_GREEN;
-        buttonNorthPressed = false;
-        stateStartTime = now;
-      }
-
+    if (!threeTickActive) {
+      currentTrafficState = SYSTEM_STANDBY;
+      stateStartTime = now;
+      displayDigit(6);
+    }
     break;
 
-    case STARTUP_NORTH_GREEN:
-      northGreen();
+  case SYSTEM_STARTUP:
+  northRed();
+  southRed();
+  openBarrier();
+  displayDigit(7); // Display uit
 
-      if (trainWasDetected) {
-        stateStartTime = now;
-        transitionToTrainApproaching();
-        return;
-      }
-
-      if (now - stateStartTime >= MIN_GREEN_TIME) {
-        currentTrafficState = NORTH_GREEN;
-        stateStartTime = now;
-      }
-
-      break;
-
-    case STARTUP_SOUTH_GREEN:
-      southGreen();
-
-      if (trainWasDetected) {
-        transitionToTrainApproaching();
-        return;
-      }
-
-      if (now - stateStartTime >= MIN_GREEN_TIME) {
-        currentTrafficState = SOUTH_GREEN;
-        stateStartTime = now;
-      }
-      break;
-
-    default:
-      break;
+  if (trainWasDetected) {
+    transitionToTrainApproaching();
+    return;
   }
+
+  if (barrierIsMoving) {
+    buzzerOn(now);
+    if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
+      barrierIsMoving = false;
+      currentTrafficState = SYSTEM_STANDBY;
+      stateStartTime = now;
+    }
+  } else {
+    buzzerOff();
+  }
+
+  break;
+
+  case SYSTEM_STANDBY:
+  northRed();
+  southRed();
+  if (trainWasDetected) {
+    transitionToTrainApproaching();
+    return;
+  }
+  buzzerOff();
+  if (buttonNorthPressed && !barrierIsMoving) {
+    currentTrafficState = STARTUP_NORTH_GREEN;
+    buttonSouthPressed = false;
+    stateStartTime = now;
+  } else if (buttonSouthPressed && !barrierIsMoving) {
+    currentTrafficState = STARTUP_SOUTH_GREEN;
+    buttonNorthPressed = false;
+    stateStartTime = now;
+  }
+
+  break;
+
+  case STARTUP_NORTH_GREEN:
+  northGreen();
+
+  if (trainWasDetected) {
+    stateStartTime = now;
+    transitionToTrainApproaching();
+    return;
+  }
+
+  if (now - stateStartTime >= MIN_GREEN_TIME) {
+    currentTrafficState = NORTH_GREEN;
+    stateStartTime = now;
+  }
+
+  break;
+
+  case STARTUP_SOUTH_GREEN:
+  southGreen();
+
+  if (trainWasDetected) {
+    transitionToTrainApproaching();
+    return;
+  }
+
+  if (now - stateStartTime >= MIN_GREEN_TIME) {
+    currentTrafficState = SOUTH_GREEN;
+    stateStartTime = now;
+  }
+  break;
+
+  default:
+  break;
+}
 }

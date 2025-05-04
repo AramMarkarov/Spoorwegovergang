@@ -8,5 +8,4 @@ void loop() {
   handleButtonPress();
   handleTrainDetection();
   updateTraffic();
-  updateDisplayCounter();
 }

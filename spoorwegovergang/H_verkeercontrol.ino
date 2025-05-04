@@ -13,7 +13,10 @@ enum TrafficState {
   SOUTH_YELLOW,
   SOUTH_RED,
   TRAIN_APPROACHING,
+  TRAIN_PASSING,
   TRAIN_PASSED,
+  COUNTDOWN,
+  THREE_TICK,
   SYSTEM_STARTUP,
   SYSTEM_STANDBY,
   STARTUP_NORTH_GREEN,
@@ -92,8 +95,4 @@ void transitionToTrainPassed() {
   currentTrafficState = TRAIN_PASSED;
 }
 
-void countdownDisplay() {
-  if (!countdownActive) {
-    startCountdown();
-  }
-}
+
