@@ -5,31 +5,26 @@ int lastButtonStateSouth = LOW;
 
 bool buttonNorthPressed = false;
 bool buttonSouthPressed = false;
-unsigned long buttonPressTime = 0;
+
+unsigned long currentMillis;
 
 void handleButtonPress() {
+  currentMillis = millis();
   int readingNorth = digitalRead(BUTTONNORTH);
   int readingSouth = digitalRead(BUTTONSOUTH);
   
-  // Setup voor debounce voor Noord en Zuid
-  if (readingNorth != lastButtonStateNorth) {
-    lastButtonPressTime = millis();
+  // Debounce
+  if (readingNorth != lastButtonStateNorth || readingSouth != lastButtonStateSouth) {
+    lastButtonPressTime = currentMillis;
   }
 
-  if (readingSouth != lastButtonStateSouth) {
-    lastButtonPressTime = millis();
-  }
-
-  // Check of knopppen worden ingedrukt
-  if ((millis() - lastButtonPressTime) > DEBOUNCE_DELAY) {
+  if ((currentMillis - lastButtonPressTime) > DEBOUNCE_DELAY) {
     if (readingNorth == HIGH && !buttonNorthPressed) {
       buttonNorthPressed = true;
-      buttonPressTime = millis();
     }
 
     if (readingSouth == HIGH && !buttonSouthPressed) {
       buttonSouthPressed = true;
-      buttonPressTime = millis();
     }
   }
 

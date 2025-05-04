@@ -4,14 +4,12 @@ void setupTraffic() {
 
 void updateTraffic() {
   unsigned long now = millis();
-  updateBarrierMovement(now);
-  bool trainIncoming = trainDetectedEast || trainDetectedWest;
-  bool trainPassed = !trainDetectedEast && !trainDetectedWest;
-
+  bool trainWasDetected = detectionPhase != NO_TRAIN;
+  
   switch (currentTrafficState) {
 
     case NORTH_GREEN:
-      if (trainIncoming) {
+      if (trainWasDetected) {
         transitionToTrainApproaching();
         return;
       }
@@ -40,7 +38,7 @@ void updateTraffic() {
       break;
 
     case SOUTH_GREEN:
-      if (trainIncoming) {
+      if (trainWasDetected) {
         transitionToTrainApproaching();
         return;
       }
@@ -106,7 +104,7 @@ void updateTraffic() {
         case SYSTEM_STANDBY:
           if (now - stateStartTime >= RED_TIME) {
             handleBlinkingYellow(now);
-            closeBarrier(now);
+            closeBarrier();
           }
           break;
 
@@ -121,40 +119,51 @@ void updateTraffic() {
       break;
 
     case TRAIN_PASSED:
-      openBarrier(now);
-      buzzerOff();
-      if (buttonNorthPressed) {
-        currentTrafficState = NORTH_GREEN;
-        buttonSouthPressed = false;
-      } else if (buttonSouthPressed) {
-        currentTrafficState = SOUTH_GREEN;
-        buttonNorthPressed = false;
+      openBarrier();
+
+      if (barrierIsMoving) {
+        buzzerOn(now);
+        if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
+          barrierIsMoving = false;
+          currentTrafficState = SYSTEM_STANDBY;
+          stateStartTime = now;
+        }
       } else {
-        currentTrafficState = NORTH_GREEN;
+        buzzerOff();
       }
-      // stel in voor system startup en correct button functie
 
       break;
 
     case SYSTEM_STARTUP:
       northRed();
       southRed();
-      openBarrier(now);
+      openBarrier();
       displayDigit(7); // Display uit
-      
-      if (trainIncoming) {
+
+      if (trainWasDetected) {
         transitionToTrainApproaching();
         return;
       }
-      currentTrafficState = SYSTEM_STANDBY;
+
+      if (barrierIsMoving) {
+        buzzerOn(now);
+        if (now - stateStartTime >= BARRIER_MOVE_TIME_MS) {
+          barrierIsMoving = false;
+          currentTrafficState = SYSTEM_STANDBY;
+          stateStartTime = now;
+        }
+      } else {
+        buzzerOff();
+      }
 
       break;
 
     case SYSTEM_STANDBY:
-      if (trainIncoming) {
+      if (trainWasDetected) {
         transitionToTrainApproaching();
         return;
       }
+      buzzerOff();
       if (buttonNorthPressed && !barrierIsMoving) {
         currentTrafficState = STARTUP_NORTH_GREEN;
         buttonSouthPressed = false;
@@ -165,12 +174,12 @@ void updateTraffic() {
         stateStartTime = now;
       }
 
-      break;
+    break;
 
     case STARTUP_NORTH_GREEN:
       northGreen();
 
-      if (trainIncoming) {
+      if (trainWasDetected) {
         stateStartTime = now;
         transitionToTrainApproaching();
         return;
@@ -186,7 +195,7 @@ void updateTraffic() {
     case STARTUP_SOUTH_GREEN:
       southGreen();
 
-      if (trainIncoming) {
+      if (trainWasDetected) {
         transitionToTrainApproaching();
         return;
       }
