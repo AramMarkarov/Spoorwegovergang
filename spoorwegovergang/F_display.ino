@@ -1,9 +1,8 @@
-int displayCounter = -1;
 unsigned long lastDisplayUpdate = 0;
 const unsigned long SECOND = 1000;
 
 // Getallen 0-5 voor 7-segment display
-const byte digits[7] = {
+const byte DIGITS[7] = {
   B00111111, // 0
   B00000110, // 1
   B01011011, // 2
@@ -14,43 +13,27 @@ const byte digits[7] = {
 };
 
 unsigned long countdownStartTime = 0;
-const int countdownSeconds = 5;
-bool countdownActive = false;
+const long COUNTDOWN_SECONDS = 6; // 0 telt mee
 
 // Juiste getal weergeven
 void displayDigit(int number) {
   digitalWrite(LATCHPIN, LOW);
-  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, digits[number]);
+  shiftOut(DATAPIN, CLOCKPIN, MSBFIRST, DIGITS[number]);
   digitalWrite(LATCHPIN, HIGH);
 }
 
-// Aftellen
-void startCountdown() {
-  countdownActive = true;
-}
+const unsigned long DISPLAY_UPDATE_INTERVAL = 100;
 
-bool isCountdownFinished(unsigned long now) {
-  countdownStartTime = now;
-  return countdownActive && ((now - countdownStartTime) >= countdownSeconds * SECOND);
-}
-
-const unsigned long DISPLAY_UPDATE_INTERVAL = 250;
-// Zorgt dat display daadwerkelijk aftelt naar 0, dan countdownActive op false
 void updateDisplayCounter(unsigned long now) {
-  if (!countdownActive) return;
-
   if (now - lastDisplayUpdate >= DISPLAY_UPDATE_INTERVAL) {
     lastDisplayUpdate = now;
 
     unsigned long elapsed = now - countdownStartTime;
-    int secondsLeft = countdownSeconds - (elapsed / SECOND);
+    int secondsLeft = COUNTDOWN_SECONDS - (elapsed / SECOND);
 
-    if (secondsLeft >= 0 && secondsLeft < (sizeof(digits) / sizeof(digits[0]))) {
+    if (secondsLeft >= 0 && secondsLeft < COUNTDOWN_SECONDS) {
       displayDigit(secondsLeft);
-    }
-
-    if (secondsLeft <= 0) {
-      countdownActive = false;
     }
   }
 }
+

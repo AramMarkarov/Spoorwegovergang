@@ -87,12 +87,6 @@ void handleBlinkingYellow(unsigned long now) {
 }
 
 void transitionToTrainApproaching() {
-  lastTrafficState = currentTrafficState; // Check verkeerstatus
+  lastTrafficState = currentTrafficState;
   currentTrafficState = TRAIN_APPROACHING;
 }
-
-void transitionToTrainPassed() {
-  currentTrafficState = TRAIN_PASSED;
-}
-
-

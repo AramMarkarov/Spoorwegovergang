@@ -4,15 +4,15 @@ bool buzzerState = false;
 const unsigned long BUZZER_BLINK_INTERVAL = 250;
 const unsigned long BUZZER_TICK_INTERVAL = 750;
 
-// Barrier movement buzzer (blinking)
-void buzzerOn(unsigned long now) {
-  static unsigned long lastTick = 0;
-  static bool buzzerTickState = false;
+bool threeTickActive = false;
+int tickCount = 0;
+int ticks = 3;
 
-  if (now - lastTick >= BUZZER_BLINK_INTERVAL) {
-    buzzerTickState = !buzzerTickState;
-    digitalWrite(BUZZER, buzzerTickState ? HIGH : LOW);
-    lastTick = now;
+void buzzerOn(unsigned long now) {
+  if (now - lastBuzzerTime >= BUZZER_BLINK_INTERVAL) {
+    buzzerState = !buzzerState;
+    digitalWrite(BUZZER, buzzerState ? HIGH : LOW);
+    lastBuzzerTime = now;
   }
 }
 
@@ -20,32 +20,24 @@ void buzzerOff() {
   digitalWrite(BUZZER, LOW);
 }
 
-bool threeTickActive = false;
-int tickCount = 0;
-bool isBuzzing = false;
-unsigned long lastTickTime = 0;
-
 void startThreeTickBuzzer(unsigned long now) {
   threeTickActive = true;
   tickCount = 0;
-  isBuzzing = false;
-  lastTickTime = now;
+  buzzerState = false;
+  lastBuzzerTime = now;
 }
 
+
 void updateThreeTickBuzzer(unsigned long now) {
-  if (!threeTickActive) return;
+  if (now - lastBuzzerTime >= BUZZER_TICK_INTERVAL) {
+    buzzerState = !buzzerState;
+    digitalWrite(BUZZER, buzzerState ? HIGH : LOW);
+    lastBuzzerTime = now;
+    tickCount++;
 
-  if (now - lastTickTime >= BUZZER_TICK_INTERVAL) {
-    isBuzzing = !isBuzzing;
-    digitalWrite(BUZZER, isBuzzing ? HIGH : LOW);
-    lastTickTime = now;
-
-    if (!isBuzzing) {
-      tickCount++;
-      if (tickCount >= 3) {
-        threeTickActive = false;
-        digitalWrite(BUZZER, LOW);
-      }
+    if (tickCount >= ticks) {
+      threeTickActive = false;
+      digitalWrite(BUZZER, LOW);
     }
   }
 }
