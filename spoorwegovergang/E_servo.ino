@@ -23,3 +23,5 @@ void closeBarrier() {
   barrierServo.write(CLOSED_ANGLE);
   barrierIsMoving = true;
 }
+
+// Implementeer een check voor servo closed en servo open

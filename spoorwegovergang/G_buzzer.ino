@@ -44,3 +44,5 @@ void threeTicks(unsigned long now) {
     Serial.println("Resetting tickStep.");
   }
 }
+
+// Update met gebruik van tone
