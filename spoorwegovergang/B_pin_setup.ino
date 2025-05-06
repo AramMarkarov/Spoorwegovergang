@@ -1,4 +1,4 @@
-#include <Servo.h>
+#include <Servo.h> // Vereiste bibliotheek
 
 // Knoppen en sensoren
 const int SENSOREAST = 4;
@@ -44,6 +44,7 @@ void setupPins() {
   // Buzzer
   pinMode(BUZZER, OUTPUT);
 
+  // Servo
   barrierServo.attach(SERVO);
 
   // LED’s

@@ -1,17 +1,12 @@
-unsigned long lastBuzzerTime = 0;
-bool buzzerState = false;
-
-const unsigned long BUZZER_BLINK_INTERVAL = 250;
-const unsigned long BUZZER_TICK_INTERVAL = 750;
-
-bool threeTickActive = false;
-int tickCount = 0;
-int ticks = 3;
+unsigned long lastBuzzerTime = 0; // Tijd sinds de laatste buzzer 
+bool buzzerState = false; // Buzzer status voor komende piepjes
 
 void buzzerOn(unsigned long now) {
-  if (now - lastBuzzerTime >= BUZZER_BLINK_INTERVAL) {
+  const unsigned long TICK = 250;
+  if (now - lastBuzzerTime >= TICK) {
     buzzerState = !buzzerState;
-    digitalWrite(BUZZER, buzzerState ? HIGH : LOW);
+    // if else statement die iedere TICK de buzzer aan of uit zet
+    digitalWrite(BUZZER, buzzerState ? HIGH : LOW); 
     lastBuzzerTime = now;
   }
 }
@@ -20,24 +15,30 @@ void buzzerOff() {
   digitalWrite(BUZZER, LOW);
 }
 
-void startThreeTickBuzzer(unsigned long now) {
-  threeTickActive = true;
-  tickCount = 0;
-  buzzerState = false;
-  lastBuzzerTime = now;
-}
+int tickStep = 0; // 0-2 piepjes aan, 3 piepje uit
 
-
-void updateThreeTickBuzzer(unsigned long now) {
-  if (now - lastBuzzerTime >= BUZZER_TICK_INTERVAL) {
-    buzzerState = !buzzerState;
-    digitalWrite(BUZZER, buzzerState ? HIGH : LOW);
-    lastBuzzerTime = now;
-    tickCount++;
-
-    if (tickCount >= ticks) {
-      threeTickActive = false;
-      digitalWrite(BUZZER, LOW);
+// Serial prints omdat mijn buzzer mogelijk niet werkt met deze methode,
+// elders werkt het wel zoals tinkercad
+void threeTicks(unsigned long now) {
+  const unsigned long TICK = 750;
+  if (tickStep < 3) { // 3 piepjes
+    if (now - lastBuzzerTime >= TICK) {
+      buzzerState = true;
+      digitalWrite(BUZZER, HIGH);
+      lastBuzzerTime = now;
+      tickStep++;
+      Serial.println("Tick ON: " + String(tickStep));
     }
+  } else if (tickStep < 4) { // 1 piepje uit
+    if (now - lastBuzzerTime >= TICK) {
+      buzzerState = false;
+      digitalWrite(BUZZER, LOW);
+      lastBuzzerTime = now;
+      tickStep++;
+      Serial.println("Tick OFF: Silent");
+    }
+  } else {
+    tickStep = 0;
+    Serial.println("Resetting tickStep.");
   }
 }
