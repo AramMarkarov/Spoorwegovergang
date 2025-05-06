@@ -21,7 +21,9 @@ int tickStep = 0; // 0-2 piepjes aan, 3 piepje uit
 // elders werkt het wel zoals tinkercad
 void threeTicks(unsigned long now) {
   const unsigned long TICK = 750;
-  if (tickStep < 3) { // 3 piepjes
+  const unsigned long NUMBER_OF_TICKS = 3;
+  const unsigned long SEQUENCE_LENGTH = 4;
+  if (tickStep < NUMBER_OF_TICKS) { // 3 piepjes
     if (now - lastBuzzerTime >= TICK) {
       buzzerState = true;
       digitalWrite(BUZZER, HIGH);
@@ -29,7 +31,7 @@ void threeTicks(unsigned long now) {
       tickStep++;
       Serial.println("Tick ON: " + String(tickStep));
     }
-  } else if (tickStep < 4) { // 1 piepje uit
+  } else if (tickStep < SEQUENCE_LENGTH) { // 1 piepje uit
     if (now - lastBuzzerTime >= TICK) {
       buzzerState = false;
       digitalWrite(BUZZER, LOW);
