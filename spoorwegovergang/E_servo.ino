@@ -1,4 +1,4 @@
-const int OPEN_ANGLE = 90; // Simulatie van open en gesloten spoorboom
+const int OPEN_ANGLE = 90; // Hoeken van open en gesloten spoorboom
 const int CLOSED_ANGLE = 70;
 const unsigned long BARRIER_MOVE_TIME_MS = 16000; // Tijd voor het openen en sluiten van de spoorboom
 
